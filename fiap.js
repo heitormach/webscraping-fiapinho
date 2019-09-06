@@ -5,14 +5,28 @@ void (async () => {
     try {
         const browser = await puppeteer.launch(
             {
-                headless: false
+                headless: false,
+                ignoreHTTPSErrors: true
                 // , slowMo: 100
             }
         )
 
         const page = await browser.newPage()
 
-        await page.goto('file:///E:/Users/heitor.machado/Desktop/Beliz%C3%A1rio/fiap-mpsp-master/arisp/login.html')
+        await page.goto('http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/login');
+
+        await page.click('#username');
+
+        await page.type('#username', 'fiap');
+        await page.click('#password');
+
+        await page.type('#password', 'mpsp');
+
+        await page.click('body > div > form > button');
+
+        await page.waitForSelector('body > div > table > tbody > tr:nth-child(1) > td:nth-child(1) > a');
+
+        await page.goto('http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arisp/login.html')
 
         const LOGIN_SELECTOR = '#btnCallLogin'
 
